@@ -18,4 +18,24 @@
         <string name="cadastro_link_login">Já tem conta? Sign In</string>
         <string name="cadastro_error_password_mismatch">As senhas não coincidem.</string>
         <string name="cadastro_success_simulation">Cadastro (simulado) com sucesso!</string>
+
+        <string name="main_title">Meus Inventários</string>
+        <string name="main_empty_state">Nenhum inventário encontrado.\nClique no \'+\' para criar um novo.</string>
+        <string name="main_fab_description">Adicionar Novo Inventário</string>
+        <string name="main_toast_add_action">Ação de Adicionar Inventário</string>
+
+        <string name="item_inventario_nome_placeholder">Nome do Inventário</string>
+        <string name="item_inventario_icon_description">Ícone do Inventário</string>
+
+        <string name="dialog_add_inventory_title">Novo Inventário</string>
+        <string name="dialog_add_inventory_hint">Ex: Inventário da Garagem</string>
+        <string name="dialog_add_inventory_button_create">Criar</string>
+        <string name="dialog_add_inventory_button_cancel">Cancelar</string>
+        <string name="dialog_add_inventory_toast_success">Inventário criado com sucesso!</string>
+        <string name="dialog_add_inventory_toast_error">O nome não pode estar vazio.</string>
+
+        <string name="setores_placeholder_title">Nome do Inventário</string>
+        <string name="setores_empty_state">Nenhum setor encontrado.\nClique no \'+\' para criar um novo.</string>
+        <string name="setores_fab_description">Adicionar Novo Setor</string>
+        <string name="setores_error_loading">Erro ao carregar inventário.</string>
 </resources>

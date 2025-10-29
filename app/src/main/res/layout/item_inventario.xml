@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginTop="8dp"
+    android:background="@drawable/item_background"> <ImageView
+    android:id="@+id/imgIconInventario"
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:src="@drawable/ic_inventory"
+    android:contentDescription="@string/item_inventario_icon_description" /> <TextView
+    android:id="@+id/tvNomeInventario"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/item_inventario_nome_placeholder" android:textSize="18sp"
+    android:textStyle="bold"
+    android:layout_gravity="center_vertical"
+    android:layout_marginStart="16dp"/>
+
+</LinearLayout>

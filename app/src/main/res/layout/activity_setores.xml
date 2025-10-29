@@ -5,36 +5,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".SetoresActivity">
 
     <TextView
-        android:id="@+id/tvMainTitle"
-        android:layout_width="wrap_content"
+        android:id="@+id/tvNomeInventarioHeader"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/main_title" android:textSize="28sp"
-        android:textStyle="bold"
+        android:text="@string/setores_placeholder_title"
+        android:textSize="28sp" android:textStyle="bold"
         android:layout_marginTop="24dp"
         android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Inventário Empresa"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvInventarios"
+        android:id="@+id/rvSetores"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/tvMainTitle"
+        app:layout_constraintTop_toBottomOf="@id/tvNomeInventarioHeader"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/item_inventario" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/tvEmptyState"
+        android:id="@+id/tvSetoresEmptyState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/main_empty_state" android:textSize="16sp"
-        android:gravity="center"
+        android:text="@string/setores_empty_state"
+        android:textSize="16sp" android:gravity="center"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -43,12 +45,14 @@
         tools:visibility="visible"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddInventario"
+        android:id="@+id/fabAddSetor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="24dp"
         android:src="@drawable/ic_add"
-        android:contentDescription="@string/main_fab_description" app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:contentDescription="@string/setores_fab_description"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="TouchTargetSizeCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
