@@ -92,4 +92,10 @@ object GestorDeDados {
             listaDeInventarios[index] = inventarioAtualizado
         }
     }
+
+    fun clearAllData() {
+        listaDeInventarios.clear()
+        listaDeSetores.clear()
+        listaDeItens.clear()
+    }
 }

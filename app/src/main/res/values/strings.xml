@@ -1,23 +1,23 @@
 <resources>
         <string name="app_name">Inventario</string>
         <string name="login_logo_description">Logo da App</string>
-        <string name="login_title">Sign In</string>
+        <string name="login_title">Login</string>
         <string name="login_label_email">Email</string>
-        <string name="login_hint_email">name@example.com</string>
-        <string name="login_label_password">Password</string>
+        <string name="login_hint_email">nome@exemplo.com</string>
+        <string name="login_label_password">Senha</string>
         <string name="login_hint_password">••••••••••</string>
-        <string name="login_button_signin">Sign In</string>
-        <string name="login_link_forgot_password">Forgot Password?</string>
-        <string name="login_link_signup">Sign Up</string>
+        <string name="login_button_signin">Logar</string>
+        <string name="login_link_forgot_password">Não possui uma conta?</string>
+        <string name="login_link_signup">Cadastrar</string>
         <string name="login_error_empty_fields">Por favor, preencha todos os campos.</string>
-        <string name="login_success_simulation">Login (simulado) com sucesso!</string>
+        <string name="login_success_simulation">Login realizado com sucesso!</string>
 
-        <string name="cadastro_title">Sign Up</string>
-        <string name="cadastro_label_confirm_password">Confirm Password</string>
-        <string name="cadastro_button_signup">Sign Up</string>
+        <string name="cadastro_title">Cadastro</string>
+        <string name="cadastro_label_confirm_password">Confirme a Senha</string>
+        <string name="cadastro_button_signup">Cadastrar</string>
         <string name="cadastro_link_login">Já tem conta? Sign In</string>
         <string name="cadastro_error_password_mismatch">As senhas não coincidem.</string>
-        <string name="cadastro_success_simulation">Cadastro (simulado) com sucesso!</string>
+        <string name="cadastro_success_simulation">Cadastrado com sucesso!</string>
 
         <string name="main_title">Meus Inventários</string>
         <string name="main_empty_state">Nenhum inventário encontrado.\nClique no \'+\' para criar um novo.</string>
@@ -69,4 +69,6 @@
         <string name="dialog_edit_item_toast_success">Item atualizado com sucesso!</string>
         <string name="dialog_edit_setor_toast_success">Setor atualizado com sucesso!</string>
         <string name="dialog_edit_inventario_toast_success">Inventário atualizado com sucesso!</string>
+
+        <string name="action_logout">Sair</string>
 </resources>

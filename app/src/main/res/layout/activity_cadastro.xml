@@ -15,8 +15,10 @@
         android:layout_height="120dp"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="32dp"
-        android:src="@mipmap/ic_launcher"
-        android:contentDescription="@string/login_logo_description" /> <TextView
+        android:src="@drawable/ic_inventory"
+        android:contentDescription="@string/login_logo_description" />
+
+    <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="@string/cadastro_title" android:textSize="32sp"
@@ -48,7 +50,9 @@
         android:layout_height="wrap_content"
         android:hint="@string/login_hint_password" android:inputType="textPassword"
         android:padding="12dp"
-        android:autofillHints="newPassword" /> <TextView
+        android:autofillHints="newPassword" />
+
+    <TextView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="@string/cadastro_label_confirm_password" android:layout_marginTop="16dp"
@@ -61,7 +65,9 @@
         android:layout_height="wrap_content"
         android:hint="@string/login_hint_password" android:inputType="textPassword"
         android:padding="12dp"
-        android:autofillHints="password" /> <Button
+        android:autofillHints="password" />
+
+    <Button
     android:id="@+id/btnSignUp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
