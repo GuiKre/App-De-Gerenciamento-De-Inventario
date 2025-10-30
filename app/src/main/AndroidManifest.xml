@@ -13,8 +13,15 @@
         android:theme="@style/Theme.MainActivity"
         tools:targetApi="31">
         <activity
+            android:name=".ItensActivity"
+            android:exported="false"
+            android:parentActivityName=".SetoresActivity"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
+        <activity
             android:name=".SetoresActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".LoginActivity"
             android:exported="true">
@@ -29,7 +36,7 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
 
 </manifest>

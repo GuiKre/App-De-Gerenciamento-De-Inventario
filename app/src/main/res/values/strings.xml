@@ -38,4 +38,24 @@
         <string name="setores_empty_state">Nenhum setor encontrado.\nClique no \'+\' para criar um novo.</string>
         <string name="setores_fab_description">Adicionar Novo Setor</string>
         <string name="setores_error_loading">Erro ao carregar inventário.</string>
+
+        <string name="item_setor_icon_description">Ícone do Setor</string>
+
+        <string name="dialog_add_setor_title">Novo Setor</string>
+        <string name="dialog_add_setor_hint">Ex: Sala de Estar</string>
+        <string name="dialog_add_setor_toast_success">Setor criado com sucesso!</string>
+
+        <string name="itens_empty_state">Nenhum item encontrado.\nClique no \'+\' para criar um novo.</string>
+        <string name="itens_fab_description">Adicionar Novo Item</string>
+        <string name="itens_error_loading">Erro ao carregar setor.</string>
+
+        <string name="item_label_quantidade">Quantidade</string>
+        <string name="item_label_modelo">Modelo: %1$s</string>
+
+        <string name="dialog_add_item_title">Novo Item</string>
+        <string name="dialog_add_item_hint_nome">Nome do Item (Ex: Cadeira)</string>
+        <string name="dialog_add_item_hint_modelo">Modelo (Ex: DX Racer)</string>
+        <string name="dialog_add_item_hint_codigo">Código (Ex: SKU123)</string>
+        <string name="dialog_add_item_hint_quantidade">Quantidade</string>
+        <string name="dialog_add_item_toast_success">Item adicionado com sucesso!</string>
 </resources>
