@@ -58,4 +58,15 @@
         <string name="dialog_add_item_hint_codigo">Código (Ex: SKU123)</string>
         <string name="dialog_add_item_hint_quantidade">Quantidade</string>
         <string name="dialog_add_item_toast_success">Item adicionado com sucesso!</string>
+
+        <string name="dialog_delete_title">Excluir Item</string>
+        <string name="dialog_delete_message">Tem a certeza que quer excluir este item? Esta ação não pode ser desfeita.</string>
+        <string name="dialog_delete_button_delete">Excluir</string>
+
+        <string name="dialog_options_title">Opções</string>
+        <string name="action_edit">Editar</string>
+        <string name="action_save">Salvar</string>
+        <string name="dialog_edit_item_toast_success">Item atualizado com sucesso!</string>
+        <string name="dialog_edit_setor_toast_success">Setor atualizado com sucesso!</string>
+        <string name="dialog_edit_inventario_toast_success">Inventário atualizado com sucesso!</string>
 </resources>

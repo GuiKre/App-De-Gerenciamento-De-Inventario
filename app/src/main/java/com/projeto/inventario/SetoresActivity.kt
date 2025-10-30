@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputLayout
-import java.util.UUID
 
 class SetoresActivity : AppCompatActivity() {
 
@@ -51,15 +50,27 @@ class SetoresActivity : AppCompatActivity() {
 
         setupRecyclerView()
 
-        verificarEstadoDaListaSetores()
+        carregarSetores()
 
         fabAddSetor.setOnClickListener {
             mostrarDialogoAddSetor()
         }
     }
 
+    private fun carregarSetores() {
+        val idDoInventarioPai = inventarioId ?: return
+
+        listaDeSetores.clear()
+        listaDeSetores.addAll(GestorDeDados.getSetores(idDoInventarioPai))
+        setorAdapter.notifyDataSetChanged()
+
+        verificarEstadoDaListaSetores()
+    }
+
     private fun setupRecyclerView() {
-        setorAdapter = SetorAdapter(listaDeSetores)
+        setorAdapter = SetorAdapter(listaDeSetores) { setorClicado ->
+            mostrarDialogoOpcoes(setorClicado)
+        }
         rvSetores.layoutManager = GridLayoutManager(this, 2)
         rvSetores.adapter = setorAdapter
     }
@@ -90,7 +101,7 @@ class SetoresActivity : AppCompatActivity() {
                 adicionarNovoSetor(nomeDoSetor)
                 dialog.dismiss()
             } else {
-                Toast.makeText(this, getString(R.string.dialog_add_inventory_toast_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.login_error_empty_fields), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -104,20 +115,114 @@ class SetoresActivity : AppCompatActivity() {
     private fun adicionarNovoSetor(nome: String) {
         val idDoInventarioPai = inventarioId ?: return
 
-        val novoSetor = Setor(
-            id = UUID.randomUUID().toString(),
-            nome = nome,
-            inventarioId = idDoInventarioPai
-        )
-
+        val novoSetor = GestorDeDados.addSetor(nome, idDoInventarioPai)
         listaDeSetores.add(novoSetor)
-
         val novaPosicao = listaDeSetores.size - 1
         setorAdapter.notifyItemInserted(novaPosicao)
 
         verificarEstadoDaListaSetores()
 
         Toast.makeText(this, getString(R.string.dialog_add_setor_toast_success), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun mostrarDialogoOpcoes(setor: Setor) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(getString(R.string.dialog_options_title))
+
+        val opcoes = arrayOf(
+            getString(R.string.action_edit),
+            getString(R.string.dialog_delete_button_delete)
+        )
+
+        builder.setItems(opcoes) { dialog, which ->
+            when (which) {
+                0 -> {
+                    mostrarDialogoEditarSetor(setor)
+                }
+                1 -> {
+                    mostrarDialogoExcluirSetor(setor)
+                }
+            }
+            dialog.dismiss()
+        }
+
+        builder.setNegativeButton(getString(R.string.dialog_add_inventory_button_cancel)) { dialog, _ ->
+            dialog.cancel()
+        }
+
+        builder.create().show()
+    }
+
+    private fun mostrarDialogoEditarSetor(setorParaEditar: Setor) {
+        val builder = AlertDialog.Builder(this)
+        val inflater = LayoutInflater.from(this)
+        val dialogView = inflater.inflate(R.layout.dialog_add_setor, null)
+        val textInputLayout = dialogView.findViewById<TextInputLayout>(R.id.tilNomeNovoSetor)
+
+        textInputLayout.editText?.setText(setorParaEditar.nome)
+
+        builder.setTitle(getString(R.string.action_edit))
+        builder.setView(dialogView)
+
+        builder.setPositiveButton(getString(R.string.action_save)) { dialog, _ ->
+            val nome = textInputLayout.editText?.text.toString().trim()
+
+            if (nome.isNotEmpty()) {
+                atualizarSetor(setorParaEditar, nome)
+                dialog.dismiss()
+            } else {
+                Toast.makeText(this, getString(R.string.login_error_empty_fields), Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        builder.setNegativeButton(getString(R.string.dialog_add_inventory_button_cancel)) { dialog, _ ->
+            dialog.cancel()
+        }
+
+        builder.create().show()
+    }
+
+    private fun atualizarSetor(setorOriginal: Setor, nome: String) {
+        GestorDeDados.updateSetor(setorOriginal, nome)
+
+        val posicao = listaDeSetores.indexOf(setorOriginal)
+        if (posicao != -1) {
+            val setorAtualizado = setorOriginal.copy(nome = nome)
+            listaDeSetores[posicao] = setorAtualizado
+            setorAdapter.notifyItemChanged(posicao)
+        }
+
+        Toast.makeText(this, getString(R.string.dialog_edit_setor_toast_success), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun mostrarDialogoExcluirSetor(setorParaExcluir: Setor) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(getString(R.string.dialog_delete_title))
+        builder.setMessage(getString(R.string.dialog_delete_message))
+
+        builder.setPositiveButton(getString(R.string.dialog_delete_button_delete)) { dialog, _ ->
+            excluirSetor(setorParaExcluir)
+            dialog.dismiss()
+        }
+
+        builder.setNegativeButton(getString(R.string.dialog_add_inventory_button_cancel)) { dialog, _ ->
+            dialog.cancel()
+        }
+
+        builder.create().show()
+    }
+
+    private fun excluirSetor(setorParaExcluir: Setor) {
+        val posicao = listaDeSetores.indexOf(setorParaExcluir)
+        if (posicao == -1) {
+            return
+        }
+
+        GestorDeDados.removeSetor(setorParaExcluir)
+        listaDeSetores.removeAt(posicao)
+        setorAdapter.notifyItemRemoved(posicao)
+
+        verificarEstadoDaListaSetores()
     }
 
     override fun onSupportNavigateUp(): Boolean {

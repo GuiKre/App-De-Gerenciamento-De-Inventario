@@ -6,7 +6,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class ItemAdapter(private val listaDeItens: List<Item>) :
+class ItemAdapter(
+    private val listaDeItens: List<Item>,
+    private val onLongClick: (Item) -> Unit
+) :
     RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -23,16 +26,16 @@ class ItemAdapter(private val listaDeItens: List<Item>) :
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val itemAtual = listaDeItens[position]
-
         val context = holder.itemView.context
 
         holder.nomeItem.text = itemAtual.nome
-
         holder.modeloItem.text = context.getString(R.string.item_label_modelo, itemAtual.modelo)
-
         holder.quantidadeItem.text = itemAtual.quantidade.toString()
 
-        holder.itemView.setOnClickListener {}
+        holder.itemView.setOnLongClickListener {
+            onLongClick(itemAtual)
+            true
+        }
     }
 
     override fun getItemCount(): Int {

@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class SetorAdapter(private val listaDeSetores: List<Setor>) :
+class SetorAdapter(
+    private val listaDeSetores: List<Setor>,
+    private val onLongClick: (Setor) -> Unit
+) :
     RecyclerView.Adapter<SetorAdapter.SetorViewHolder>() {
 
     class SetorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -26,13 +29,15 @@ class SetorAdapter(private val listaDeSetores: List<Setor>) :
 
         holder.itemView.setOnClickListener {
             val context = holder.itemView.context
-
             val intent = Intent(context, ItensActivity::class.java)
-
             intent.putExtra("SETOR_ID", setorAtual.id)
             intent.putExtra("SETOR_NOME", setorAtual.nome)
-
             context.startActivity(intent)
+        }
+
+        holder.itemView.setOnLongClickListener {
+            onLongClick(setorAtual)
+            true
         }
     }
 

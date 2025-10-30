@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import java.util.UUID
+import com.google.android.material.textfield.TextInputLayout
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,9 +31,7 @@ class MainActivity : AppCompatActivity() {
 
         setupRecyclerView()
 
-        carregarDadosSimulados()
-
-        verificarEstadoDaLista()
+        carregarInventarios()
 
         fabAddInventario.setOnClickListener {
             mostrarDialogoAddInventario()
@@ -41,23 +39,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        inventarioAdapter = InventarioAdapter(listaDeInventarios)
+        inventarioAdapter = InventarioAdapter(listaDeInventarios) { inventarioClicado ->
+            mostrarDialogoOpcoes(inventarioClicado)
+        }
         rvInventarios.layoutManager = LinearLayoutManager(this)
         rvInventarios.adapter = inventarioAdapter
     }
 
-    private fun carregarDadosSimulados() {
-        // Esta função agora serve apenas para carregar dados iniciais (se houver)
-        // Se quisermos que comece vazia, deixamos esta função vazia.
-        /*
-        val novosInventarios = listOf(
-            Inventario("id1", "Inventário Empresa"),
-            Inventário("id2", "Inventário Casa")
-        )
-        val posicaoInicial = listaDeInventarios.size
-        listaDeInventarios.addAll(novosInventarios)
-        inventarioAdapter.notifyItemRangeInserted(posicaoInicial, novosInventarios.size)
-        */
+    private fun carregarInventarios() {
+        listaDeInventarios.clear()
+        listaDeInventarios.addAll(GestorDeDados.getInventarios())
+        inventarioAdapter.notifyDataSetChanged()
+
+        verificarEstadoDaLista()
     }
 
     private fun verificarEstadoDaLista() {
@@ -72,11 +66,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun mostrarDialogoAddInventario() {
         val builder = AlertDialog.Builder(this)
-
         val inflater = LayoutInflater.from(this)
         val dialogView = inflater.inflate(R.layout.dialog_add_inventory, null)
-
-        val textInputLayout = dialogView.findViewById<com.google.android.material.textfield.TextInputLayout>(R.id.tilNomeNovoInventario)
+        val textInputLayout = dialogView.findViewById<TextInputLayout>(R.id.tilNomeNovoInventario)
 
         builder.setTitle(getString(R.string.dialog_add_inventory_title))
         builder.setView(dialogView)
@@ -88,7 +80,7 @@ class MainActivity : AppCompatActivity() {
                 adicionarNovoInventario(nomeDoInventario)
                 dialog.dismiss()
             } else {
-                Toast.makeText(this, getString(R.string.dialog_add_inventory_toast_error), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.login_error_empty_fields), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -100,18 +92,113 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun adicionarNovoInventario(nome: String) {
-        val idUnico = UUID.randomUUID().toString()
-
-        val novoInventario = Inventario(id = idUnico, nome = nome)
-
+        val novoInventario = GestorDeDados.addInventario(nome)
         listaDeInventarios.add(novoInventario)
-
         val novaPosicao = listaDeInventarios.size - 1
-
         inventarioAdapter.notifyItemInserted(novaPosicao)
 
         verificarEstadoDaLista()
 
         Toast.makeText(this, getString(R.string.dialog_add_inventory_toast_success), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun mostrarDialogoOpcoes(inventario: Inventario) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(getString(R.string.dialog_options_title))
+
+        val opcoes = arrayOf(
+            getString(R.string.action_edit),
+            getString(R.string.dialog_delete_button_delete)
+        )
+
+        builder.setItems(opcoes) { dialog, which ->
+            when (which) {
+                0 -> {
+                    mostrarDialogoEditarInventario(inventario)
+                }
+                1 -> {
+                    mostrarDialogoExcluirInventario(inventario)
+                }
+            }
+            dialog.dismiss()
+        }
+
+        builder.setNegativeButton(getString(R.string.dialog_add_inventory_button_cancel)) { dialog, _ ->
+            dialog.cancel()
+        }
+
+        builder.create().show()
+    }
+
+    private fun mostrarDialogoEditarInventario(inventarioParaEditar: Inventario) {
+        val builder = AlertDialog.Builder(this)
+        val inflater = LayoutInflater.from(this)
+        val dialogView = inflater.inflate(R.layout.dialog_add_inventory, null)
+        val textInputLayout = dialogView.findViewById<TextInputLayout>(R.id.tilNomeNovoInventario)
+
+        textInputLayout.editText?.setText(inventarioParaEditar.nome)
+
+        builder.setTitle(getString(R.string.action_edit))
+        builder.setView(dialogView)
+
+        builder.setPositiveButton(getString(R.string.action_save)) { dialog, _ ->
+            val nome = textInputLayout.editText?.text.toString().trim()
+
+            if (nome.isNotEmpty()) {
+                atualizarInventario(inventarioParaEditar, nome)
+                dialog.dismiss()
+            } else {
+                Toast.makeText(this, getString(R.string.login_error_empty_fields), Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        builder.setNegativeButton(getString(R.string.dialog_add_inventory_button_cancel)) { dialog, _ ->
+            dialog.cancel()
+        }
+
+        builder.create().show()
+    }
+
+    private fun atualizarInventario(inventarioOriginal: Inventario, nome: String) {
+        GestorDeDados.updateInventario(inventarioOriginal, nome)
+
+        val posicao = listaDeInventarios.indexOf(inventarioOriginal)
+        if (posicao != -1) {
+            val inventarioAtualizado = inventarioOriginal.copy(nome = nome)
+            listaDeInventarios[posicao] = inventarioAtualizado
+            inventarioAdapter.notifyItemChanged(posicao)
+        }
+
+        Toast.makeText(this, getString(R.string.dialog_edit_inventario_toast_success), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun mostrarDialogoExcluirInventario(inventarioParaExcluir: Inventario) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(getString(R.string.dialog_delete_title))
+        builder.setMessage(getString(R.string.dialog_delete_message))
+
+        builder.setPositiveButton(getString(R.string.dialog_delete_button_delete)) { dialog, _ ->
+            excluirInventario(inventarioParaExcluir)
+            dialog.dismiss()
+        }
+
+        builder.setNegativeButton(getString(R.string.dialog_add_inventory_button_cancel)) { dialog, _ ->
+            dialog.cancel()
+        }
+
+        builder.create().show()
+    }
+
+    private fun excluirInventario(inventarioParaExcluir: Inventario) {
+        val posicao = listaDeInventarios.indexOf(inventarioParaExcluir)
+        if (posicao == -1) {
+            return
+        }
+
+        GestorDeDados.removeInventario(inventarioParaExcluir)
+        listaDeInventarios.removeAt(posicao)
+        inventarioAdapter.notifyItemRemoved(posicao)
+
+        verificarEstadoDaLista()
     }
 }

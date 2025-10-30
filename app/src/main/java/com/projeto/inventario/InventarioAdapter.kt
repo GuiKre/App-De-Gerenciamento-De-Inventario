@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class InventarioAdapter(private val listaDeInventarios: List<Inventario>) :
+class InventarioAdapter(
+    private val listaDeInventarios: List<Inventario>,
+    private val onLongClick: (Inventario) -> Unit
+) :
     RecyclerView.Adapter<InventarioAdapter.InventarioViewHolder>() {
 
     class InventarioViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -26,13 +29,15 @@ class InventarioAdapter(private val listaDeInventarios: List<Inventario>) :
 
         holder.itemView.setOnClickListener {
             val context = holder.itemView.context
-
             val intent = Intent(context, SetoresActivity::class.java)
-
             intent.putExtra("INVENTARIO_ID", inventarioAtual.id)
             intent.putExtra("INVENTARIO_NOME", inventarioAtual.nome)
-
             context.startActivity(intent)
+        }
+
+        holder.itemView.setOnLongClickListener {
+            onLongClick(inventarioAtual)
+            true
         }
     }
 
