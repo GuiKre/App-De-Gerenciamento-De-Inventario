@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fazerLogout() {
-        GestorDeDados.clearAllData()
+        GestorDeDados.fazerLogout()
 
         val intent = Intent(this, LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -125,13 +125,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun adicionarNovoInventario(nome: String) {
         val novoInventario = GestorDeDados.addInventario(nome)
-        listaDeInventarios.add(novoInventario)
-        val novaPosicao = listaDeInventarios.size - 1
-        inventarioAdapter.notifyItemInserted(novaPosicao)
 
-        verificarEstadoDaLista()
-
-        Toast.makeText(this, getString(R.string.dialog_add_inventory_toast_success), Toast.LENGTH_SHORT).show()
+        if (novoInventario != null) {
+            listaDeInventarios.add(novoInventario)
+            val novaPosicao = listaDeInventarios.size - 1
+            inventarioAdapter.notifyItemInserted(novaPosicao)
+            verificarEstadoDaLista()
+            Toast.makeText(this, getString(R.string.dialog_add_inventory_toast_success), Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun mostrarDialogoOpcoes(inventario: Inventario) {

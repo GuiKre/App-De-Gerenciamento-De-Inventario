@@ -19,17 +19,21 @@ class LoginActivity : AppCompatActivity() {
         val tvGoToSignUp = findViewById<TextView>(R.id.tvGoToSignUp)
 
         btnLogin.setOnClickListener {
-            val email = etEmailLogin.text.toString()
-            val password = etPasswordLogin.text.toString()
+            val email = etEmailLogin.text.toString().trim()
+            val password = etPasswordLogin.text.toString().trim()
 
-            if (email.isNotEmpty() && password.isNotEmpty()) {
-                Toast.makeText(this, getString(R.string.login_success_simulation), Toast.LENGTH_SHORT).show()
-
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                finish()
-            } else {
+            if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, getString(R.string.login_error_empty_fields), Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val sucesso = GestorDeDados.verificarLogin(email, password)
+
+            if (sucesso) {
+                Toast.makeText(this, "Login com sucesso!", Toast.LENGTH_SHORT).show()
+                irParaMainActivity()
+            } else {
+                Toast.makeText(this, "E-mail ou senha incorretos.", Toast.LENGTH_LONG).show()
             }
         }
 
@@ -37,5 +41,11 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, CadastroActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun irParaMainActivity() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }
